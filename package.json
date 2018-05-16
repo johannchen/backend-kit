@@ -1,18 +1,22 @@
 {
-   "name": "backend-kit",
-   "version": "0.0.1",
-   "description": "Awesome project developed with TypeORM.",
-   "devDependencies": {
-      "ts-node": "3.3.0",
-      "@types/node": "^8.0.29",
-      "typescript": "2.5.2"
-   },
-   "dependencies": {
-      "typeorm": "0.1.16",
-      "reflect-metadata": "^0.1.10",
-      "mysql": "^2.14.1"
-   },
-   "scripts": {
-      "start": "ts-node src/index.ts"
-   }
+  "name": "backend-kit",
+  "version": "0.0.1",
+  "description": "Awesome project developed with TypeORM.",
+  "devDependencies": {
+    "@types/node": "^10.1.0",
+    "nodemon": "^1.17.4",
+    "ts-node": "6.0.3",
+    "tslint": "^5.10.0",
+    "tslint-config-prettier": "^1.12.0",
+    "typescript": "2.8.3"
+  },
+  "dependencies": {
+    "graphql-yoga": "^1.13.1",
+    "mysql": "^2.14.1",
+    "reflect-metadata": "^0.1.10",
+    "typeorm": "0.2.5"
+  },
+  "scripts": {
+    "start": "nodemon --exec ts-node src/index.ts"
+  }
 }
