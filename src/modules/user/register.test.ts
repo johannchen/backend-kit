@@ -1,8 +1,6 @@
 import { request } from 'graphql-request';
-
-// import { host } from './constants';
-import { User } from '../entity/User';
-import { startServer } from '../startServer';
+import { startServer } from '../../startServer';
+import { User } from '../../entity/User';
 
 let host = '';
 beforeAll(async () => {
