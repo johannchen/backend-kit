@@ -1,7 +1,12 @@
+type Error {
+  path: String!
+  message: String!
+}
+
 type Query {
   hello(name: String): String!
 }
 
 type Mutation {
-  register(email: String!, password: String!): Boolean
+  register(email: String!, password: String!): [Error!]
 }
