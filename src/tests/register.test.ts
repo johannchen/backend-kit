@@ -1,11 +1,14 @@
 import { request } from 'graphql-request';
 
-import { host } from './constants';
+// import { host } from './constants';
 import { User } from '../entity/User';
-import { createTypeormConn } from '../utils/createTypeormConn';
+import { startServer } from '../startServer';
 
+let host = '';
 beforeAll(async () => {
-  await createTypeormConn();
+  const app = await startServer();
+  const { port } = app.address();
+  host = `http://127.0.0.1:${port}`;
 });
 
 const email = 'bob@bob.com';
