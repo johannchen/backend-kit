@@ -8,4 +8,7 @@ export class User extends BaseEntity {
   email: string;
 
   @Column('text') password: string;
+
+  @Column('tinyint', { default: 0 })
+  confirmed: boolean;
 }
