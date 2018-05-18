@@ -4,17 +4,24 @@ import fetch from 'node-fetch';
 import { createTypeormConn } from './createTypeormConn';
 import { User } from '../entity/User';
 import { createConfirmEmailLink } from './createConfirmEmailLink';
+import { Connection } from 'typeorm';
 
 let userId = '';
 const redis = new Redis();
+let connection: Connection;
 
 beforeAll(async () => {
-  await createTypeormConn();
+  connection = await createTypeormConn();
   const user = await User.create({
     email: 'bob2@bob.com',
     password: 'akjsdflkasjdf'
   }).save();
   userId = user.id;
+});
+
+// close connection at the end
+afterAll(async () => {
+  connection.close();
 });
 
 test('createConfirmEmailLink and clears key in redis', async () => {
