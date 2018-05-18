@@ -1,5 +1,4 @@
 import { request } from 'graphql-request';
-import { startServer } from '../../startServer';
 import { User } from '../../entity/User';
 import {
   duplicateEmail,
@@ -7,13 +6,7 @@ import {
   invalidEmail,
   passwordNotLongEnough
 } from './errorMessages';
-
-let host = '';
-beforeAll(async () => {
-  const app = await startServer();
-  const { port }: any = app.address();
-  host = `http://127.0.0.1:${port}`;
-});
+import { createTypeormConn } from '../../utils/createTypeormConn';
 
 const email = 'bob@bob.com';
 const password = 'bob@bob.com';
@@ -27,9 +20,16 @@ mutation {
 }
 `;
 
+beforeAll(async () => {
+  await createTypeormConn();
+});
+
 describe('register mutation', async () => {
   it('should register a valid user', async () => {
-    const response = await request(host, mutation(email, password));
+    const response = await request(
+      process.env.TEST_HOST as string,
+      mutation(email, password)
+    );
     expect(response).toEqual({ register: null });
     const users = await User.find({ where: { email } });
     expect(users).toHaveLength(1);
@@ -39,7 +39,10 @@ describe('register mutation', async () => {
   });
 
   it('should not register a duplicate user', async () => {
-    const response: any = await request(host, mutation(email, password));
+    const response: any = await request(
+      process.env.TEST_HOST as string,
+      mutation(email, password)
+    );
     expect(response.register).toHaveLength(1);
     expect(response.register[0]).toEqual({
       path: 'email',
@@ -48,7 +51,10 @@ describe('register mutation', async () => {
   });
 
   it('should not register a user with an invalid email', async () => {
-    const response: any = await request(host, mutation('a', password));
+    const response: any = await request(
+      process.env.TEST_HOST as string,
+      mutation('a', password)
+    );
     expect(response.register).toHaveLength(2);
 
     expect(response.register).toEqual([
@@ -64,7 +70,10 @@ describe('register mutation', async () => {
   });
 
   it('should not register a user with an invalid password', async () => {
-    const response: any = await request(host, mutation(email, 'a'));
+    const response: any = await request(
+      process.env.TEST_HOST as string,
+      mutation(email, 'a')
+    );
     expect(response.register).toHaveLength(1);
 
     expect(response.register).toEqual([
@@ -76,7 +85,10 @@ describe('register mutation', async () => {
   });
 
   it('should not register a user with an invalid password and invalid email', async () => {
-    const response: any = await request(host, mutation('a', 'a'));
+    const response: any = await request(
+      process.env.TEST_HOST as string,
+      mutation('a', 'a')
+    );
     expect(response.register).toHaveLength(3);
 
     expect(response.register).toEqual([
