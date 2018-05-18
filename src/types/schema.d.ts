@@ -31,12 +31,18 @@ name?: string | null;
 
 interface IMutation {
 __typename: "Mutation";
-register: boolean | null;
+register: Array<IError>;
 }
 
 interface IRegisterOnMutationArguments {
 email: string;
 password: string;
+}
+
+interface IError {
+__typename: "Error";
+path: string;
+message: string;
 }
 }
 
