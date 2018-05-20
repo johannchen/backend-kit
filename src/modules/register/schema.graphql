@@ -1,10 +1,7 @@
-type Error {
-  path: String!
-  message: String!
-}
+# import Error from "../../share.graphql"
 
 type Query {
-  hello(name: String): String!
+  hello: String
 }
 
 type Mutation {
