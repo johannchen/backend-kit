@@ -51,4 +51,9 @@ describe('me', () => {
       }
     });
   });
+  /*
+  it('returns null when no cookie', async () => {
+
+  });
+  */
 });
