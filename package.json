@@ -4,6 +4,7 @@
   "description": "Awesome project developed with TypeORM.",
   "devDependencies": {
     "@types/bcryptjs": "^2.4.1",
+    "@types/express-session": "^1.15.8",
     "@types/ioredis": "^3.2.8",
     "@types/jest": "^22.2.3",
     "@types/node": "^10.1.0",
@@ -22,9 +23,11 @@
   },
   "dependencies": {
     "@gql2ts/from-schema": "^1.8.0",
+    "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
+    "express-session": "^1.15.6",
     "graphql": "^0.13.2",
     "graphql-import": "^0.5.2",
     "graphql-request": "^1.6.0",
