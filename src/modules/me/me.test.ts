@@ -6,7 +6,7 @@ import { loginMutation } from '../../test-helpers/mutations';
 
 let userId: string;
 let connection: Connection;
-const email = 'bob@bob.com';
+const email = 'bob3@bob.com';
 const password = 'kasdfjls';
 
 beforeAll(async () => {
@@ -31,10 +31,22 @@ const meQuery = `{
 }`;
 
 describe('me', () => {
+  it('return null when no cookie', async () => {
+    const response = await axios.post(
+      process.env.TEST_HOST as string,
+      {
+        query: meQuery
+      },
+      { withCredentials: false }
+    );
+    expect(response.data.data.me).toBeNull();
+  });
   it('get current user', async () => {
     await axios.post(
       process.env.TEST_HOST as string,
-      { query: loginMutation(email, password) },
+      {
+        query: loginMutation(email, password)
+      },
       { withCredentials: true }
     );
 
@@ -51,9 +63,4 @@ describe('me', () => {
       }
     });
   });
-  /*
-  it('returns null when no cookie', async () => {
-
-  });
-  */
 });

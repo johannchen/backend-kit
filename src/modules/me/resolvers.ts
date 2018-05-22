@@ -6,7 +6,8 @@ import { User } from '../../entity/User';
 export const resolvers: ResolverMap = {
   Query: {
     me: createMiddleware(middleware, (_, __, { session }) => {
-      return User.findOne(session.userId);
+      // console.log(session.userId);
+      return User.findOne({ where: { id: session.userId } });
     })
   }
 };

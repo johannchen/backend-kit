@@ -4,6 +4,7 @@ import { Connection } from 'typeorm';
 
 import { invalidLogin, confirmEmailError } from './errorMessages';
 import { User } from '../../entity/User';
+import { loginMutation } from '../../test-helpers/mutations';
 
 let connection: Connection;
 
@@ -13,15 +14,6 @@ const password = 'skjdfldskjf';
 const registerMutation = (e: string, p: string) => `
 mutation {
   register(email: "${e}", password: "${p}") {
-    path
-    message
-  }
-}
-`;
-
-const loginMutation = (e: string, p: string) => `
-mutation {
-  login(email: "${e}", password: "${p}") {
     path
     message
   }
