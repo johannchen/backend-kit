@@ -5,6 +5,14 @@ export const resolvers: ResolverMap = {
     dummy: () => 'dummy'
   },
   Mutation: {
-    logout: () => false
+    logout: (_, __, { session }) =>
+      new Promise(resolve =>
+        session.destroy(err => {
+          if (err) {
+            console.log('logout error: ', err);
+          }
+          resolve(true);
+        })
+      )
   }
 };

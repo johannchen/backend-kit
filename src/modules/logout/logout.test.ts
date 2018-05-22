@@ -2,6 +2,8 @@ import axios from 'axios';
 import { createTypeormConn } from '../../utils/createTypeormConn';
 import { User } from '../../entity/User';
 import { Connection } from 'typeorm';
+import { loginMutation } from '../../test-helpers/mutations';
+import { meQuery } from '../../test-helpers/queries';
 
 let conn: Connection;
 const email = 'bob5@bob.com';
@@ -22,24 +24,6 @@ afterAll(async () => {
   conn.close();
 });
 
-const loginMutation = (e: string, p: string) => `
-mutation {
-  login(email: "${e}", password: "${p}") {
-    path
-    message
-  }
-}
-`;
-
-const meQuery = `
-{
-  me {
-    id
-    email
-  }
-}
-`;
-
 const logoutMutation = `
 mutation {
   logout
@@ -47,7 +31,7 @@ mutation {
 `;
 
 describe('logout', () => {
-  test('test logging out a user', async () => {
+  it('log out a user', async () => {
     await axios.post(
       process.env.TEST_HOST as string,
       {
