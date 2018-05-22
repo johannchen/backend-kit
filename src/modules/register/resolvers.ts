@@ -5,12 +5,12 @@ import { User } from '../../entity/User';
 import {
   emailNotLongEnough,
   invalidEmail,
-  passwordNotLongEnough,
   duplicateEmail
 } from './errorMessages';
 import { formatYupError } from '../../utils/formatYupError';
 import { createConfirmEmailLink } from '../../utils/createConfirmEmailLink';
 import { sendEmail } from '../../utils/sendEmail';
+import { passwordValidation } from '../../yupSchemas';
 
 const schema = yup.object().shape({
   email: yup
@@ -18,10 +18,7 @@ const schema = yup.object().shape({
     .min(3, emailNotLongEnough)
     .max(255)
     .email(invalidEmail),
-  password: yup
-    .string()
-    .min(6, passwordNotLongEnough)
-    .max(255)
+  password: passwordValidation
 });
 export const resolvers: ResolverMap = {
   Query: {
