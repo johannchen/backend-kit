@@ -23,7 +23,17 @@ afterAll(async () => {
 });
 
 describe('logout', () => {
-  it('log out a user', async () => {
+  it('log out multiple sessions', async () => {
+    const device1 = new TestClient(process.env.TEST_HOST as string);
+    await device1.login(email, password);
+    const device2 = new TestClient(process.env.TEST_HOST as string);
+    await device2.login(email, password);
+    expect(await device1.me()).toEqual(await device2.me());
+    await device1.logout();
+    expect(await device1.me()).toEqual(await device2.me());
+  });
+
+  it('log out single session', async () => {
     const client = new TestClient(process.env.TEST_HOST as string);
     await client.login(email, password);
     const response = await client.me();
