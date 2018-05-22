@@ -8,6 +8,7 @@ import { createForgotPasswordLink } from '../../utils/createForgotPasswordLink';
 import { forgotPasswordPrefix } from '../../constants';
 import { passwordValidation } from '../../yupSchemas';
 import { formatYupError } from '../../utils/formatYupError';
+import { sendEmail } from '../../utils/sendEmail';
 
 const schema = yup.object().shape({
   newPassword: passwordValidation
@@ -22,9 +23,14 @@ export const resolvers: ResolverMap = {
       if (!user) {
         return [{ path: 'email', message: userNotFoundError }];
       }
-      // @todo add frontend url
-      await createForgotPasswordLink('', user.id, redis);
-      // @todo sen email
+      // @todo set front end url
+      if (process.env.NODE_ENV !== 'test') {
+        sendEmail(
+          email,
+          await createForgotPasswordLink('', user.id, redis),
+          'reset password'
+        );
+      }
       return null;
     },
     forgotPasswordChange: async (_, { newPassword, key }, { redis }) => {

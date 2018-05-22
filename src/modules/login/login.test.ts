@@ -45,4 +45,6 @@ describe('login', () => {
     const response = await client.login(email, password);
     expect(response.data).toEqual({ login: null });
   });
+
+  // @todo lock account when user try to login more than 10 times (rate limit)
 });
