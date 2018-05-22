@@ -37,12 +37,12 @@ export class TestClient {
       ...this.options,
       body: {
         query: `
-        mutation {
-          login(email: "${email}", password: "${password}") {
-            path
-            message
+          mutation {
+            login(email: "${email}", password: "${password}") {
+              path
+              message
+            }
           }
-        }
         `
       }
     });
@@ -53,9 +53,9 @@ export class TestClient {
       ...this.options,
       body: {
         query: `
-        mutation {
-          logout
-        }
+          mutation {
+            logout
+          }
         `
       }
     });
@@ -70,6 +70,22 @@ export class TestClient {
             me {
               id
               email
+            }
+          }
+        `
+      }
+    });
+  }
+
+  async forgotPasswordChange(newPassword: string, key: string) {
+    return rp.post(this.url, {
+      ...this.options,
+      body: {
+        query: `
+          mutation {
+            forgotPasswordChange(newPassword: "${newPassword}", key: "${key}") {
+              path
+              message
             }
           }
         `
