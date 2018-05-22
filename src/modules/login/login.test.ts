@@ -4,21 +4,12 @@ import { Connection } from 'typeorm';
 
 import { invalidLogin, confirmEmailError } from './errorMessages';
 import { User } from '../../entity/User';
-import { loginMutation } from '../../test-helpers/mutations';
+import { loginMutation, registerMutation } from '../../test-helpers/mutations';
 
 let connection: Connection;
 
 const email = 'bob@bob.com';
 const password = 'skjdfldskjf';
-
-const registerMutation = (e: string, p: string) => `
-mutation {
-  register(email: "${e}", password: "${p}") {
-    path
-    message
-  }
-}
-`;
 
 beforeAll(async () => {
   connection = await createTypeormConn();

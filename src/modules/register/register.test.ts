@@ -8,20 +8,12 @@ import {
 } from './errorMessages';
 import { createTypeormConn } from '../../utils/createTypeormConn';
 import { Connection } from 'typeorm';
+import { registerMutation } from '../../test-helpers/mutations';
 
 let connection: Connection;
 
 const email = 'bob@bob.com';
 const password = 'bob@bob.com';
-
-const mutation = (e: string, p: string) => `
-mutation {
-  register(email: "${e}", password: "${p}") {
-    path
-    message
-  }
-}
-`;
 
 beforeAll(async () => {
   connection = await createTypeormConn();
@@ -35,7 +27,7 @@ describe('register mutation', async () => {
   it('should register a valid user', async () => {
     const response = await request(
       process.env.TEST_HOST as string,
-      mutation(email, password)
+      registerMutation(email, password)
     );
     expect(response).toEqual({ register: null });
     const users = await User.find({ where: { email } });
@@ -48,7 +40,7 @@ describe('register mutation', async () => {
   it('should not register a duplicate user', async () => {
     const response: any = await request(
       process.env.TEST_HOST as string,
-      mutation(email, password)
+      registerMutation(email, password)
     );
     expect(response.register).toHaveLength(1);
     expect(response.register[0]).toEqual({
@@ -60,7 +52,7 @@ describe('register mutation', async () => {
   it('should not register a user with an invalid email', async () => {
     const response: any = await request(
       process.env.TEST_HOST as string,
-      mutation('a', password)
+      registerMutation('a', password)
     );
     expect(response.register).toHaveLength(2);
 
@@ -79,7 +71,7 @@ describe('register mutation', async () => {
   it('should not register a user with an invalid password', async () => {
     const response: any = await request(
       process.env.TEST_HOST as string,
-      mutation(email, 'a')
+      registerMutation(email, 'a')
     );
     expect(response.register).toHaveLength(1);
 
@@ -94,7 +86,7 @@ describe('register mutation', async () => {
   it('should not register a user with an invalid password and invalid email', async () => {
     const response: any = await request(
       process.env.TEST_HOST as string,
-      mutation('a', 'a')
+      registerMutation('a', 'a')
     );
     expect(response.register).toHaveLength(3);
 
