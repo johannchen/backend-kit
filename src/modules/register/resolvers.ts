@@ -8,7 +8,7 @@ import {
   duplicateEmail
 } from './errorMessages';
 import { formatYupError } from '../../utils/formatYupError';
-import { createConfirmEmailLink } from '../../utils/createConfirmEmailLink';
+import { createConfirmEmailLink } from './createConfirmEmailLink';
 import { sendEmail } from '../../utils/sendEmail';
 import { passwordValidation } from '../../yupSchemas';
 

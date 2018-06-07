@@ -11,10 +11,14 @@ import { confirmEmail } from './routes/confirmEmail';
 import { redis } from './redis';
 import { generateSchema } from './utils/generateSchema';
 import { redisSessionPrefix } from './constants';
+import { createTestConn } from './test-utils/createTestConn';
 
 const SESSION_SECRET = 'kasjdfklsjkdfjs';
 const RedisStore = connectRedis(session);
 export const startServer = async () => {
+  if (process.env.NODE_ENV === 'test') {
+    await redis.flushall();
+  }
   const server = new GraphQLServer({
     schema: generateSchema(),
     context: ({ request }) => ({
@@ -62,7 +66,11 @@ export const startServer = async () => {
         : (process.env.FRONTEND_HOST as string)
   };
   server.express.get('/confirm/:id', confirmEmail);
-  await createTypeormConn();
+  if (process.env.NODE_ENV === 'test') {
+    await createTestConn(true);
+  } else {
+    await createTypeormConn();
+  }
   const port = process.env.NODE_ENV === 'test' ? 0 : 4000;
   const app = await server.start({ port, cors });
   console.log(`Server is running on localhost:${port}`);
