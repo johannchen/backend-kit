@@ -21,9 +21,6 @@ const schema = yup.object().shape({
   password: passwordValidation
 });
 export const resolvers: ResolverMap = {
-  Query: {
-    hello: () => 'hello'
-  },
   Mutation: {
     register: async (
       _,

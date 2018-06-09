@@ -8,9 +8,6 @@ import { userSessionIdPrefix } from '../../constants';
 const errorResponse = [{ path: 'login', message: invalidLogin }];
 
 export const resolvers: ResolverMap = {
-  Query: {
-    hello1: () => 'hello'
-  },
   Mutation: {
     login: async (
       _,

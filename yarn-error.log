@@ -1,14 +1,14 @@
 Arguments: 
-  /Users/johannchen/.nvm/versions/node/v9.8.0/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js remove -D @types/axios
+  /usr/local/Cellar/node/9.7.1_1/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js add -@types/glob
 
 PATH: 
-  /Users/johannchen/.nvm/versions/node/v9.8.0/bin:/Users/johannchen/Library/Python/3.6/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+  /Users/johannchen/Library/Python/3.6/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/johannchen/Library/Python/3.6/bin
 
 Yarn version: 
   1.5.1
 
 Node version: 
-  9.8.0
+  9.7.1
 
 Platform: 
   darwin x64
@@ -21,7 +21,9 @@ npm manifest:
     "devDependencies": {
       "@types/bcryptjs": "^2.4.1",
       "@types/connect-redis": "^0.0.7",
+      "@types/express-rate-limit": "^2.9.3",
       "@types/express-session": "^1.15.8",
+      "@types/faker": "^4.1.2",
       "@types/ioredis": "^3.2.8",
       "@types/jest": "^22.2.3",
       "@types/node": "^10.1.0",
@@ -45,14 +47,19 @@ npm manifest:
       "connect-redis": "^3.3.3",
       "dotenv": "^5.0.1",
       "express": "^4.16.3",
+      "express-rate-limit": "^2.11.0",
       "express-session": "^1.15.6",
+      "faker": "^4.1.0",
+      "glob": "^7.1.2",
       "graphql": "^0.13.2",
       "graphql-import": "^0.5.2",
       "graphql-tools": "^3.0.1",
       "graphql-yoga": "^1.13.1",
       "ioredis": "^3.2.2",
+      "merge-graphql-schemas": "^1.5.1",
       "mysql": "^2.14.1",
       "node-fetch": "^2.1.2",
+      "rate-limit-redis": "^1.4.0",
       "reflect-metadata": "^0.1.10",
       "request-promise": "^4.2.2",
       "sparkpost": "^2.1.2",
@@ -62,11 +69,11 @@ npm manifest:
     },
     "scripts": {
       "start": "NODE_ENV=dev nodemon --exec ts-node src/index.ts",
-      "test": "NODE_ENV=test jest --watch --runInBand",
+      "test": "NODE_ENV=test jest --watch",
       "gen-schema-types": "ts-node src/scripts/createGQLTypes.ts"
     },
     "jest": {
-      "globalSetup": "./src/test-setup/callSetup.js",
+      "globalSetup": "./src/test-utils/callSetup.js",
       "transform": {
         "^.+\\.tsx?$": "ts-jest"
       },
@@ -182,6 +189,12 @@ Lockfile:
     version "1.2.0"
     resolved "https://registry.yarnpkg.com/@types/events/-/events-1.2.0.tgz#81a6731ce4df43619e5c8c945383b3e62a89ea86"
   
+  "@types/express-rate-limit@^2.9.3":
+    version "2.9.3"
+    resolved "https://registry.yarnpkg.com/@types/express-rate-limit/-/express-rate-limit-2.9.3.tgz#e83a548bf251ad12ca49055c22d3f2da4e16b62d"
+    dependencies:
+      "@types/express" "*"
+  
   "@types/express-serve-static-core@*":
     version "4.11.1"
     resolved "https://registry.yarnpkg.com/@types/express-serve-static-core/-/express-serve-static-core-4.11.1.tgz#f6f7212382d59b19d696677bcaa48a37280f5d45"
@@ -204,6 +217,10 @@ Lockfile:
       "@types/body-parser" "*"
       "@types/express-serve-static-core" "*"
       "@types/serve-static" "*"
+  
+  "@types/faker@^4.1.2":
+    version "4.1.2"
+    resolved "https://registry.yarnpkg.com/@types/faker/-/faker-4.1.2.tgz#f8ab50c9f9af68c160dd71b63f83e24b712d0df5"
   
   "@types/form-data@*":
     version "2.2.1"
@@ -1106,6 +1123,10 @@ Lockfile:
       strip-ansi "^4.0.0"
       wrap-ansi "^2.0.0"
   
+  clone@^1.0.2:
+    version "1.0.4"
+    resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.4.tgz#da309cc263df15994c688ca902179ca3c7cd7c7e"
+  
   cluster-key-slot@^1.0.6:
     version "1.0.9"
     resolved "https://registry.yarnpkg.com/cluster-key-slot/-/cluster-key-slot-1.0.9.tgz#a538b001da90157efe6f758ae9ddde2ecd9a3077"
@@ -1325,11 +1346,21 @@ Lockfile:
     version "0.1.3"
     resolved "https://registry.yarnpkg.com/deep-is/-/deep-is-0.1.3.tgz#b369d6fb5dbc13eecf524f91b070feedc357cf34"
   
+  deepmerge@^2.1.0:
+    version "2.1.1"
+    resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-2.1.1.tgz#e862b4e45ea0555072bf51e7fd0d9845170ae768"
+  
   default-require-extensions@^1.0.0:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/default-require-extensions/-/default-require-extensions-1.0.0.tgz#f37ea15d3e13ffd9b437d33e1a75b5fb97874cb8"
     dependencies:
       strip-bom "^2.0.0"
+  
+  defaults@^1.0.3:
+    version "1.0.3"
+    resolved "https://registry.yarnpkg.com/defaults/-/defaults-1.0.3.tgz#c656051e9817d9ff08ed881477f3fe4019f3ef7d"
+    dependencies:
+      clone "^1.0.2"
   
   define-properties@^1.1.2:
     version "1.1.2"
@@ -1596,6 +1627,12 @@ Lockfile:
       jest-message-util "^22.4.3"
       jest-regex-util "^22.4.3"
   
+  express-rate-limit@^2.11.0:
+    version "2.11.0"
+    resolved "https://registry.yarnpkg.com/express-rate-limit/-/express-rate-limit-2.11.0.tgz#092122218c86eddb56fb350f431e522fb8024ea9"
+    dependencies:
+      defaults "^1.0.3"
+  
   express-session@^1.15.6:
     version "1.15.6"
     resolved "https://registry.yarnpkg.com/express-session/-/express-session-1.15.6.tgz#47b4160c88f42ab70fe8a508e31cbff76757ab0a"
@@ -1688,6 +1725,10 @@ Lockfile:
   extsprintf@^1.2.0:
     version "1.4.0"
     resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.4.0.tgz#e2689f8f356fad62cca65a3a91c5df5f9551692f"
+  
+  faker@^4.1.0:
+    version "4.1.0"
+    resolved "https://registry.yarnpkg.com/faker/-/faker-4.1.0.tgz#1e45bbbecc6774b3c195fad2835109c6d748cc3f"
   
   fast-deep-equal@^1.0.0:
     version "1.1.0"
@@ -3226,6 +3267,14 @@ Lockfile:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/merge-descriptors/-/merge-descriptors-1.0.1.tgz#b00aaa556dd8b44568150ec9d1b953f3f90cbb61"
   
+  merge-graphql-schemas@^1.5.1:
+    version "1.5.1"
+    resolved "https://registry.yarnpkg.com/merge-graphql-schemas/-/merge-graphql-schemas-1.5.1.tgz#a9682d4067c0c80c0db631ec56b4573731e93dc3"
+    dependencies:
+      deepmerge "^2.1.0"
+      glob "^7.1.2"
+      is-glob "^4.0.0"
+  
   merge-stream@^1.0.1:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/merge-stream/-/merge-stream-1.0.1.tgz#4041202d508a342ba00174008df0c251b8c135e1"
@@ -3864,6 +3913,13 @@ Lockfile:
     version "1.2.0"
     resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.0.tgz#f49be6b487894ddc40dcc94a322f611092e00d5e"
   
+  rate-limit-redis@^1.4.0:
+    version "1.4.0"
+    resolved "https://registry.yarnpkg.com/rate-limit-redis/-/rate-limit-redis-1.4.0.tgz#9bfb5ef31adf3026500ee06be0dcc2082ccc5d87"
+    dependencies:
+      defaults "^1.0.3"
+      redis "^2.6.0-2"
+  
   raw-body@2.3.2:
     version "2.3.2"
     resolved "https://registry.yarnpkg.com/raw-body/-/raw-body-2.3.2.tgz#bcd60c77d3eb93cde0050295c3f379389bc88f89"
@@ -3962,7 +4018,7 @@ Lockfile:
     version "2.6.0"
     resolved "https://registry.yarnpkg.com/redis-parser/-/redis-parser-2.6.0.tgz#52ed09dacac108f1a631c07e9b69941e7a19504b"
   
-  redis@^2.1.0:
+  redis@^2.1.0, redis@^2.6.0-2:
     version "2.8.0"
     resolved "https://registry.yarnpkg.com/redis/-/redis-2.8.0.tgz#202288e3f58c49f6079d97af7a10e1303ae14b02"
     dependencies:
@@ -5178,14 +5234,14 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/zen-observable/-/zen-observable-0.8.8.tgz#1ea93995bf098754a58215a1e0a7309e5749ec42"
 
 Trace: 
-  Error: Not enough arguments, expected at least 1.
+  Error: Missing list of packages to add to your project.
       at new MessageError (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:186:110)
-      at Object.<anonymous> (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:60368:13)
+      at Object.<anonymous> (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:40587:13)
       at Generator.next (<anonymous>)
       at step (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:98:30)
       at /usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:116:14
       at new Promise (<anonymous>)
       at new F (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:23451:28)
       at Object.<anonymous> (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:95:12)
-      at Object.run (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:60486:17)
+      at Object.run (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:40599:19)
       at run (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:89113:20)

@@ -14,9 +14,6 @@ const schema = yup.object().shape({
   newPassword: passwordValidation
 });
 export const resolvers: ResolverMap = {
-  Query: {
-    dummy: () => 'dummy'
-  },
   Mutation: {
     sendForgotPasswordEmail: async (_, { email }, { redis }) => {
       const user = await User.findOne({ where: { email } });
